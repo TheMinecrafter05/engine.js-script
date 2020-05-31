@@ -1,12 +1,10 @@
 /*
 ------------------ENGINE.JS V 1.5---------------------
-        MADE BY THEMINECRAFTER05
+              MADE BY THEMINECRAFTER05
 
 ENGLISH:
 
 -->DO NOT COPY THE SCRIPT OR PARTS OF IT!!!<--
-
--->DO NOT SELL IT AS YOUR OWN SCRIPT!!!<--
 
 -->DO NOT CHANGE THE CODE, IT CAN STOP WORKING IF YOU DO IT!!!<--
 
@@ -17,8 +15,6 @@ IF YOU HAVE BUGS OR ERRORS AND YOU DIDNT CHANGE SOMETHING, PLS CONTACT ME: -->Th
 GERMAN:
 
 -->KOPIERE NICHT DAS SCRIPT ODER TEILE DARAUS!!!<--
-
--->VERKAUFE ES NICHT AL DEIN SCRIPT!!!<--
 
 -->VERÄNDERE NICHT DEN CODE, ES KANN DANACH NICHT MEHR FUNKTIONIEREN!!!<--
 
@@ -32,6 +28,7 @@ WENN DU BUGS ODER FEHLER HAST, OHNE DAS DU WAS VERÄNDERT HAST, BITTE KONTAKTIER
 const Discord = require("discord.js");
 var bot
 var owner
+var messageLog = false;
 module.exports = {
     "createBot":function(token="",botOwner="",logMessage=""){
         bot  = new Discord.Client();
@@ -53,36 +50,49 @@ module.exports = {
 
         bot.on("message",function(message){
             if(message.content==="engine.help"){
+                //let user = message.mentions.users.first();
+                if(message.author.username != owner) return message.reply("Sorry, aber du bist nicht der Bot Owner oder du hast nicht deinen Discord namen angegeben.").then(msg=>msg.delete({timeout:"5000"}))
                 message.delete()
                 let embed = new Discord.MessageEmbed()
-                .setTitle("engine.js Hilfe")
+                .setTitle("engine.js Hilfe | __(__command__)__ = not required / __<__command__>__ = required")
                 .setColor("YELLOW")
                 .setThumbnail(bot.user.avatarURL())
                 .setURL("https://sites.google.com/view/simple-HTMLGames-de")
-                .addField("engine.createBot(<token>,<botOwner>,<logMessage>)","token: Bot Token\nbotOwner: Discord Name von dir\nlogMessage: Was in der Console steht wenn der Bot startet")
-                .addField("engine.sendMessage(<command>,<content>)","command: Bei welchem Command das ausgeführt werden soll\ncontent: Was in der Nachricht stehen soll")
-                .addField("engine.createEmbed(<command>,<title>,<desc>,<color>,<footer>)","command: Bei welchem Command das ausgeführt werden soll\ntitle: Titel\n desc: Beschreibung\ncolor: Farbe (RANDOM,RED,YELLOW,GREEN,0x0ff674...)\nfooter: Fußzeile")
-                .addField("engine.clearCommand(<command>)","command: Bei welchem Command das ausgeführt werden soll")
-                .addField("engine.kickCommand(<command>)", "command: Bei welchem Command das ausgeführt werden soll")
-                .addField("engine.banCommand(<command>)", "command: Bei welchem Command das ausgeführt werden soll")
-                .addField("engine.botStatus(<status>,<statusType>,<mode>)","status: Status Text\nstatusType: den Typ: __playing__, __listening__,__watching__\nmode: Der StatusModus: __dnd__ (Bitte Nicht Stören), __idle__ (Abwesend), __online__ (Online)")
-                .addField("engine.random(<command>,<minNumber>,<maxNumber>,<output>", "command: Bei welchem Command das ausgeführt werden soll\nminNumber: Die kleinste Zahl die kommen kann\nmaxNumber: Die größte Zahl die kommen kann\noutput: Der Text vor der Nummer")
-                .addField("engine.twoOutRandom(<command>,<output1>,<output2>)","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit")
-                .addField("engine.threeOutRandom(<command>,<output1>,<output2>)","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit\noutput1: Die 3te Möglichkeit")
-                .addField("engine.fourOutRandom(<command>,<output1>,<output2>)","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit\noutput1: Die 3te Möglichkeit\noutput1: Die 4te Möglichkeit")
-                .addField("engine.welcome(<channelName>,<message>)","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
-                .addField("engine.leave(<channelName>,<message>)","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
-                .addField("engine.welcomeEmbed(<channelName>,<thumbnail>,<message>,<color>)","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung\nthumbnail: Das Bild von dem Embed\bcolor: Die Farbe des Embeds")
-                .addField("engine.leaveEmbed(<channelName>,<thumbnail>,<message>,<color>)","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung\nthumbnail: Das Bild von dem Embed\bcolor: Die Farbe des Embeds")
+                .addField("**engine.createBot(<token>,<botOwner>,(logMessage))**","token: Bot Token\nbotOwner: Discord Name von dir\nlogMessage: Was in der Console steht wenn der Bot startet")
+                .addField("**engine.sendMessage(<command>,<content>)**","command: Bei welchem Command das ausgeführt werden soll\ncontent: Was in der Nachricht stehen soll")
+                .addField("**engine.createEmbed(<command>,<title>,<desc>,<color>)**","command: Bei welchem Command das ausgeführt werden soll\ntitle: Titel\n desc: Beschreibung\ncolor: Farbe (RANDOM,RED,YELLOW,GREEN,0x0ff674...)\nfooter: Fußzeile")
+                .addField("**engine.clearCommand(<command>)**","command: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.kickCommand(<command>)**", "command: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.banCommand(<command>)**", "command: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.botStatus(<status>,<statusType>,(mode))**","status: Status Text\nstatusType: den Typ: __playing__, __listening__,__watching__\nmode: Der StatusModus: __dnd__ (Bitte Nicht Stören), __idle__ (Abwesend), __online__ (Online)")
+                .addField("**engine.random(<command>,<minNumber>,<maxNumber>,<output>**", "command: Bei welchem Command das ausgeführt werden soll\nminNumber: Die kleinste Zahl die kommen kann\nmaxNumber: Die größte Zahl die kommen kann\noutput: Der Text vor der Nummer")
+                .addField("**engine.twoOutRandom(<command>,<output1>,<output2>)**","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit")
+                .addField("**engine.threeOutRandom(<command>,<output1>,<output2>,<output3>)**","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit\noutput1: Die 3te Möglichkeit")
+                .addField("**engine.fourOutRandom(<command>,<output1>,<output2>,<output3>,<output4>)**","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit\noutput1: Die 3te Möglichkeit\noutput1: Die 4te Möglichkeit")
+                .addField("**engine.welcome(<channelName>,(message))**","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
+                .addField("**engine.leave(<channelName>,(message))**","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
+                .addField("**engine.welcomeEmbed(<channelName>,(thumbnail),(message),(color))**","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
+                .addField("**engine.leaveEmbed(<channelName>,(thumbnail),(message),(color))**","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
+                .addField("**engine.speak(<command>)**","command: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.logMessage(<state>)**","state: legt fest ob Nachrichten geloggt werden sollen oder nicht: __true__: Ja / __false__: Nein")
+                .addField("**engine.addRole(<command>)**","command: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.welcomeRole(<roleName>)","roleName: Name der Rolle")
+                .addField("**engine.botPing(<command>, <state>)","command: Bei welchem Command das ausgeführt werden soll\nstate: legt fest ob der Befehl aktiviert sein soll oder nicht: __true__: Ja / __false__: Nein")
+                .setFooter("Made with engine.js by TheMinecrafter05")
                 message.author.send(embed)
+            }
+
+            if(messageLog){
+                if(message.author.bot) return;
+                console.log(`${message.author.username}: ${message.content}`);
             }
         })
     },
     "createEmbed": function(command="",title="", desc="",color="",thumbnail=""){
         bot.on("message",async message=>{
             if(!message.guild) return;
+            if(!command) return console.error("Keinen Command angegeben.")
             if(message.content === command){
-                message.delete()
                 if(!title) return console.error("Title is not defined!");if(!desc) return console.error("Description is not defined!");if(!color) return console.error("Color is not defined!");if(!thumbnail){
                     let embed = new Discord.MessageEmbed().setTitle(title).setDescription(desc).setColor(color).setFooter("Made with engine.js by TheMinecrafter05").setURL("https://sites.google.com/view/simple-HTMLGames-de")
                     message.channel.send(embed)
@@ -98,9 +108,9 @@ module.exports = {
     "sendMessage":function(command="",content=""){
         bot.on("message",async message=>{
             if(!message.guild) return;
+            if(!command) return console.error("Keinen Command angegeben.")
             if(!content) return console.error("Kein content angegeben!");
             if(message.content === command){
-                message.delete();
                 message.channel.send(content);
             }
         })
@@ -108,6 +118,7 @@ module.exports = {
     "clearCommand": function(command=""){
         bot.on("message",async message=>{
             if(!message.guild) return;
+            if(!command) return console.error("Keinen Command angegeben.")
             if(message.content.startsWith(command)){
                 message.delete()
                 if(!message.member.hasPermission("MANAGE_MESSAGES")) return message.reply("Du hast keine Rechte dafür!").then(msg=>{
@@ -143,9 +154,11 @@ module.exports = {
     "kickCommand":function(command=""){
         bot.on("message",async message=>{
             if(!message.guild) return;
+            if(!command) return console.error("Keinen Command angegeben.")
             if(message.content.startsWith(command)){
                 message.delete()
                 let user = message.mentions.users.first();
+                if(!user) return message.reply("Du hast keinen Nutzer @erwähnt").then(msg=>msg.delete({timeout:"5000"}))
                 if(!message.member.hasPermission("KICK_MEMBERS")) return message.reply("Du hast keine Rechte dafür!").then(msg=>{
                     msg.delete({timeout:"5000"});
                 })
@@ -177,10 +190,10 @@ module.exports = {
                     msg.delete({timeout:"5000"});
                 })
 
-                if(message.guild.member(user).kickable == false) return message.channel.send("Ich kann diesen Nutzer nicht bannen! Ich habe eine zu niedrige Rolle oder es ist der Besitzer des Server.").then(msg=>{
+                if(message.guild.member(user).banable == false) return message.channel.send("Ich kann diesen Nutzer nicht bannen! Ich habe eine zu niedrige Rolle oder es ist der Besitzer des Server.").then(msg=>{
                     msg.delete({timeout:"5000"});
                 })
-                message.guild.member(user).kick()
+                message.guild.member(user).ban()
                 message.channel.send("Nutzer erfolgreich gebannt!").then(msg=>{
                     msg.delete({timeout:"5000"});
                 })
@@ -197,11 +210,11 @@ module.exports = {
         })
     },
 
-    "random":function(command="",minNumber=0,maxNumber=0,output=""){
+    "random":function(command="",maxNumber=0,output=""){
         bot.on("message", async message=>{
             if(!message.guild) return;
             if(message.content.startsWith(command)){
-                let r = Math.floor(Math.random() * maxNumber + 1 - minNumber) + minNumber
+                let r = Math.floor(Math.random() * maxNumber + 1)
 
                 message.channel.send(`${output} ${r}`)
             }
@@ -296,7 +309,7 @@ module.exports = {
             if(message){
                 let embed = new Discord.MessageEmbed()
                 .setTitle("__**Willkommens Nachricht**__")
-                .setURL("https://sites.goiogle.com/view/simple-htmlgames-de")
+                .setURL("https://sites.google.com/view/simple-htmlgames-de")
                 .setDescription(message + ` <@${member.id}>`)
                 .setFooter("Made with engine.js by TheMinecrafter05")
                 if(!color){
@@ -311,7 +324,7 @@ module.exports = {
             }else{
                 let embed = new Discord.MessageEmbed()
                 .setTitle("__**Willkommens Nachricht**__")
-                .setURL("https://sites.goiogle.com/view/simple-htmlgames-de")
+                .setURL("https://sites.google.com/view/simple-htmlgames-de")
                 .setDescription(`Willkommen <@${member.id}>`)
                 .setFooter("Made with engine.js by TheMinecrafter05")
                 if(!color){
@@ -338,7 +351,7 @@ module.exports = {
             if(message){
                 let embed = new Discord.MessageEmbed()
                 .setTitle("__**Verlassens Nachricht**__")
-                .setURL("https://sites.goiogle.com/view/simple-htmlgames-de")
+                .setURL("https://sites.google.com/view/simple-htmlgames-de")
                 .setDescription(message + ` <@${member.id}>`)
                 .setFooter("Made with engine.js by TheMinecrafter05")
                 if(!color){
@@ -353,7 +366,7 @@ module.exports = {
             }else{
                 let embed = new Discord.MessageEmbed()
                 .setTitle("__**Verlassens Nachricht**__")
-                .setURL("https://sites.goiogle.com/view/simple-htmlgames-de")
+                .setURL("https://sites.google.com/view/simple-htmlgames-de")
                 .setDescription(`Auf wiedersehen <@${member.id}>`)
                 .setFooter("Made with engine.js by TheMinecrafter05")
                 if(!color){
@@ -381,6 +394,111 @@ module.exports = {
             if(!message.guild) return;
 
         })
-    }
+    },
 
+    "speak":function(command=""){
+        bot.on("message",async message=>{
+            if(!message.guild) return;
+            if(message.content.startsWith(command)){
+                let text = message.content.split(" ").slice(1).join(" ");
+                if(!text) return message.reply("Du hast vergessen was ich sagen soll.").then(msg=>{
+                    msg.delete({timeout:"5000"})
+                });
+                message.delete();
+                message.channel.send(text)
+            }
+        })
+    },
+
+    "logMessages":function(state=false){
+        if(state){
+            messageLog = true;
+        }else{
+            messageLog = false;
+        }
+    },
+
+    "addRole":function(command=""){
+        bot.on("message", async message=>{
+
+            if(!command) return console.error("Kein Command angegeben!")
+
+            if(message.content.startsWith(command)){
+
+            let user = message.mentions.members.first();
+            let role = message.mentions.roles.first();
+
+            if(!message.member.hasPermission("MANAGE_ROLES")) return message.reply("Du hast keine Rechte dafür!").then(msg=>{
+                msg.delete({timeout:"5000"});
+            })
+            if(!message.guild.me.hasPermission("MANAGE_ROLES")) return message.reply("Ich habe keine Rechte!").then(msg=>{
+                msg.delete({timeout:"5000"});
+            })
+
+            if(!user) return message.reply("Keinen Nutzer angegeben!").then(msg=>{
+                msg.delete({timeout:"5000"});
+            });
+
+            if(!role) return message.reply("Keine Rolle angegeben!").then(msg=>{
+                msg.delete({timeout:"5000"});
+            });
+
+                message.delete()
+
+                user.roles.add(role).then(message.channel.send("Rolle erfolgreich hinzugefügt!").then(msg=>msg.delete({timeout:"5000"})))
+            }
+        })
+    },
+
+    "welcomeRole":function(roleName=""){
+        if(!roleName) return console.error("Keine Willkommens Rolle angegeben!")
+        bot.on("guildMemberAdd",(member)=>{
+            let role = member.guild.roles.cache.find(rl=>rl.name === roleName);
+
+            member.roles.add(role)
+        })
+    },
+
+    "botPing":function(command="",state=false){
+        if(state == false) return;
+        if(!command) return console.error("Keinen Command angegeben.")
+
+        bot.on("message",async message=>{
+            if(message.content === command){
+                message.channel.send("Pong! :ping_pong: Dauerte "+bot.ws.ping+"ms!")
+            }
+        })
+
+    },
+
+    "report":function(command="", reportChannel=""){
+        if(!command) return console.error("Kein Command angegeben!");
+        if(!reportChannel) return console.error("Kein Report Kanal angegeben!")
+
+        bot.on("message",async message=>{
+            if(message.content.startsWith(command)){
+                let channel = message.guild.channels.cache.find(ch=>ch.name === reportChannel);
+
+                let user = message.mentions.users.first();
+
+                let text = message.content.split(" ").slice(2).join(" ");
+
+                if(!user) return message.reply("Keinen Nutzer zum Reporten angegeben!").then(msg=>msg.delete({timeout:"5000"}))
+
+                if(!text) return message.reply("Du hast keinen grund angegeben! oder an die falsche Stelle gesetzt!").then(msg=>msg.delete({timeout:"5000"}))
+
+                channel.send("``"+message.author.tag+"``"+" möchte ``"+user.tag+"`` reporten wegen:\n\n``"+text+"``")
+            }
+        })
+
+    }
 }
+
+
+//bug report
+
+//bot info
+
+//userinfo
+
+//serverinfo
