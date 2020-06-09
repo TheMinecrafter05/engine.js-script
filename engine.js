@@ -50,36 +50,72 @@ module.exports = {
 
         bot.on("message",function(message){
             if(message.content==="engine.help"){
-                //let user = message.mentions.users.first();
                 if(message.author.username != owner) return message.reply("Sorry, aber du bist nicht der Bot Owner oder du hast nicht deinen Discord namen angegeben.").then(msg=>msg.delete({timeout:"5000"}))
-                message.delete()
-                let embed = new Discord.MessageEmbed()
-                .setTitle("engine.js Hilfe | __(__command__)__ = not required / __<__command__>__ = required")
+                if(message.guild) message.delete()
+                let embedallgemein = new Discord.MessageEmbed()
+                .setTitle("engine.js Hilfe | Allgemein")
                 .setColor("YELLOW")
                 .setThumbnail(bot.user.avatarURL())
                 .setURL("https://sites.google.com/view/simple-HTMLGames-de")
-                .addField("**engine.createBot(<token>,<botOwner>,(logMessage))**","token: Bot Token\nbotOwner: Discord Name von dir\nlogMessage: Was in der Console steht wenn der Bot startet")
-                .addField("**engine.sendMessage(<command>,<content>)**","command: Bei welchem Command das ausgeführt werden soll\ncontent: Was in der Nachricht stehen soll")
-                .addField("**engine.createEmbed(<command>,<title>,<desc>,<color>)**","command: Bei welchem Command das ausgeführt werden soll\ntitle: Titel\n desc: Beschreibung\ncolor: Farbe (RANDOM,RED,YELLOW,GREEN,0x0ff674...)\nfooter: Fußzeile")
-                .addField("**engine.clearCommand(<command>)**","command: Bei welchem Command das ausgeführt werden soll")
-                .addField("**engine.kickCommand(<command>)**", "command: Bei welchem Command das ausgeführt werden soll")
-                .addField("**engine.banCommand(<command>)**", "command: Bei welchem Command das ausgeführt werden soll")
-                .addField("**engine.botStatus(<status>,<statusType>,(mode))**","status: Status Text\nstatusType: den Typ: __playing__, __listening__,__watching__\nmode: Der StatusModus: __dnd__ (Bitte Nicht Stören), __idle__ (Abwesend), __online__ (Online)")
-                .addField("**engine.random(<command>,<minNumber>,<maxNumber>,<output>**", "command: Bei welchem Command das ausgeführt werden soll\nminNumber: Die kleinste Zahl die kommen kann\nmaxNumber: Die größte Zahl die kommen kann\noutput: Der Text vor der Nummer")
-                .addField("**engine.twoOutRandom(<command>,<output1>,<output2>)**","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit")
-                .addField("**engine.threeOutRandom(<command>,<output1>,<output2>,<output3>)**","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit\noutput1: Die 3te Möglichkeit")
-                .addField("**engine.fourOutRandom(<command>,<output1>,<output2>,<output3>,<output4>)**","command: Bei welchem Command das ausgeführt werden soll\noutput1: Die erste Möglichkeit\noutput2: Die 2te Möglichkeit\noutput1: Die 3te Möglichkeit\noutput1: Die 4te Möglichkeit")
-                .addField("**engine.welcome(<channelName>,(message))**","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
-                .addField("**engine.leave(<channelName>,(message))**","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
-                .addField("**engine.welcomeEmbed(<channelName>,(thumbnail),(message),(color))**","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
-                .addField("**engine.leaveEmbed(<channelName>,(thumbnail),(message),(color))**","channelName: Der Name des Kanals\nmessage: Die Nachricht vor der User Erwähnung")
-                .addField("**engine.speak(<command>)**","command: Bei welchem Command das ausgeführt werden soll")
-                .addField("**engine.logMessage(<state>)**","state: legt fest ob Nachrichten geloggt werden sollen oder nicht: __true__: Ja / __false__: Nein")
-                .addField("**engine.addRole(<command>)**","command: Bei welchem Command das ausgeführt werden soll")
-                .addField("**engine.welcomeRole(<roleName>)","roleName: Name der Rolle")
-                .addField("**engine.botPing(<command>, <state>)","command: Bei welchem Command das ausgeführt werden soll\nstate: legt fest ob der Befehl aktiviert sein soll oder nicht: __true__: Ja / __false__: Nein")
+                .addField("**ACHTUNG!!!**","die <> oder () nicht mitschreiben! Das was darin steht auch nicht! BSP: als __<command>__ schreib __!help__ \n __<__command__>__ = pflicht, __(__command__)__ = freiwillig")
+                .addField("**engine.createBot(<token>,<botOwner>,(logMessage))**","__token__: Bot Token\n\n__botOwner__: Discord Name von dir <ohne #nummer>\n\n__logMessage__: Was in der Console steht wenn der Bot startet")
+                .addField("**engine.sendMessage(<command>,<content>)**","__command__: Bei welchem Command das ausgeführt werden soll\n\n__content__: Was in der Nachricht stehen soll")
+                .addField("**engine.createEmbed(<command>,<title>,<desc>,<color>)**","__command__: Bei welchem Command das ausgeführt werden soll\n\n__title__: Titel\n\n__desc__: Beschreibung\n\n__color__: Farbe (RANDOM,RED,YELLOW,GREEN,0x0ff674...)")
+                .addField("**engine.botStatus(<status>,<statusType>,(mode))**","__status__: Status Text\n\n__statusType__: den Typ: __playing__, __listening__,__watching__\n\n__mode__: Der StatusModus: __dnd__ (Bitte Nicht Stören), __idle__ (Abwesend), __online__ (Online)")
+                .addField("**engine.changeStatus(<[status1,status2,status3...]>,<statusType>,(mode))**","__status 1, 2, 3...__: Status Text\n\n__statusType__: den Typ: __playing__, __listening__,__watching__\n\n__mode__: Der StatusModus: __dnd__ (Bitte Nicht Stören), __idle__ (Abwesend), __online__ (Online)")
+                .addField("**engine.logMessage(<state>)**","__state__: legt fest ob Nachrichten geloggt werden sollen oder nicht: __true__: Ja / __false__: Nein")
+                .addField("**engine.botPing(<command>, <state>)**","__command__: Bei welchem Command das ausgeführt werden soll\n\n__state__: legt fest ob der Befehl aktiviert sein soll oder nicht: __true__: Ja / __false__: Nein")
                 .setFooter("Made with engine.js by TheMinecrafter05")
-                message.author.send(embed)
+
+
+                let embedmessages = new Discord.MessageEmbed()
+                .setTitle("engine.js Hilfe | Commands / Messages")
+                .setColor("RED")
+                .setThumbnail(bot.user.avatarURL())
+                .setURL("https://sites.google.com/view/simple-HTMLGames-de")
+                .addField("**ACHTUNG!!!**","die <> oder () nicht mitschreiben! Das was darin steht auch nicht! BSP: als __<command>__ schreib __!help__ \n __<__command__>__ = pflicht, __(__command__)__ = freiwillig")
+                .addField("**engine.clearCommand(<command>)**","__command__: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.kickCommand(<command>)**", "__command__: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.banCommand(<command>)**", "__command__: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.random(<command>,<maxNumber>,<output>**", "__command__: Bei welchem Command das ausgeführt werden soll\n\n__maxNumber__: Die größte Zahl die kommen kann\n\n__output__: Der Text vor der Nummer")
+                .addField("**engine.twoOutRandom(<command>,<output1>,<output2>)**","__command__: Bei welchem Command das ausgeführt werden soll\n\n__output1__: Die erste Möglichkeit\n\n__output2__: Die 2te Möglichkeit")
+                .addField("**engine.threeOutRandom(<command>,<output1>,<output2>,<output3>)**","__command__: Bei welchem Command das ausgeführt werden soll\n\n__output1__: Die erste Möglichkeit\n\n__output2__: Die 2te Möglichkeit\n\n__output3__: Die 3te Möglichkeit")
+                .addField("**engine.fourOutRandom(<command>,<output1>,<output2>,<output3>,<output4>)**","__command__: Bei welchem Command das ausgeführt werden soll\n\n__output1__: Die erste Möglichkeit\n\n__output2__: Die 2te Möglichkeit\n\n__output3__: Die 3te Möglichkeit\n\n__output4__: Die 4te Möglichkeit")
+                .addField("**engine.addRole(<command>)**","__command__: Bei welchem Command das ausgeführt werden soll")
+                .addField("**engine.speak(<command>)**","__command__: Bei welchem Command das ausgeführt werden soll")
+                .setFooter("Made with engine.js by TheMinecrafter05")
+
+
+
+                let embedwelcome = new Discord.MessageEmbed()
+                .setTitle("engine.js Hilfe | Welcome / Leave")
+                .setColor("GREEN")
+                .setThumbnail(bot.user.avatarURL())
+                .setURL("https://sites.google.com/view/simple-HTMLGames-de")
+                .addField("**ACHTUNG!!!**","die <> oder () nicht mitschreiben! Das was darin steht auch nicht! BSP: als __<command>__ schreib __!help__ \n __<__command__>__ = pflicht, __(__command__)__ = freiwillig")
+                .addField("**engine.welcome(<channelName>,(message))**","__channelName__: Der Name des Kanals\n\n__message__: Die Nachricht vor der User Erwähnung")
+                .addField("**engine.leave(<channelName>,(message))**","__channelName__: Der Name des Kanals\n\n__message__: Die Nachricht vor der User Erwähnung")
+                .addField("**engine.welcomeEmbed(<channelName>,(thumbnail),(message),(color))**","__channelName__: Der Name des Kanals\n\n__thumbnail__: Das Bild in dem Embed\n\n__message__: Die Nachricht vor der User Erwähnung\n\n__color__: Die farbe des Embeds")
+                .addField("**engine.leaveEmbed(<channelName>,(thumbnail),(message),(color))**","__channelName__: Der Name des Kanals\n\n__thumbnail__: Das Bild in dem Embed\n\n__message__: Die Nachricht vor der User Erwähnung\n\n__color__: Die farbe des Embeds")
+                .addField("**engine.welcomeRole(<roleName>)**","__roleName__: Name der Rolle")
+                .setFooter("Made with engine.js by TheMinecrafter05")
+
+
+                let embeduser = new Discord.MessageEmbed()
+                .setTitle("engine.js Hilfe | User / Server")
+                .setColor("BLUE")
+                .setThumbnail(bot.user.avatarURL())
+                .setURL("https://sites.google.com/view/simple-HTMLGames-de")
+                .addField("**ACHTUNG!!!**","die <> oder () nicht mitschreiben! Das was darin steht auch nicht! BSP: als __<command>__ schreib __!help__ \n __<__command__>__ = pflicht, __(__command__)__ = freiwillig")
+                .addField("**engine.userinfo(<command>,<name>,<id>,<discriminator>,<isbot>,<createtAt>,(color))","__command__: Bei welchem Command das ausgeführt werden soll\n__name__:ob der der name angezeigt wird: __true__: Ja / __false__: Nein\n\n__id__: Ob die ID angezeigt werden soll: __true__: Ja / __false__: Nein\n\n__discriminator__: Ob die Nummer angezeigt werden soll: __true__: Ja / __false__: Nein\n\n__isbot__: Ob die Botbestätigung angezeigt werden soll: __true__: Ja / __false__: Nein\n\n__createtAt__: ob das Erstelldatum des Nutzers angezeigt werden soll: __true__: Ja / __false__: Nein\n\n__color__: Farbe des Embeds")
+                .addField("**engine.serverinfo(<command>,<name>,<id>,<members>,<location>,<owner>,(color))","__command__: Bei welchem Command das ausgeführt werden soll\n__name__:ob der der name angezeigt wird: __true__: Ja / __false__: Nein\n\n__id__: Ob die ID angezeigt werden soll: __true__: Ja / __false__: Nein\n\n__members__: Ob die Mitgliedernummer angezeigt werden soll: __true__: Ja / __false__: Nein\n\n__location__: Ob die Region angezeigt werden soll: __true__: Ja / __false__: Nein\n\n__owner__: ob der Ersteller des Servers angezeigt werden soll: __true__: Ja / __false__: Nein\n\n__color__: Farbe des Embeds")
+                .addField("**engine.botInfo(<command>,<state>,(color))**","__command__: Bei welchem Command das ausgeführt werden soll\n\n__state__: legt fest ob der Befehl aktiviert sein soll oder nicht: __true__: Ja / __false__: Nein\n\n__color__: Farbe des Embeds")
+                .setFooter("Made with engine.js by TheMinecrafter05")
+
+                message.author.send(embedallgemein)
+                message.author.send(embedmessages)
+                message.author.send(embedwelcome)
+                message.author.send(embeduser)
             }
 
             if(messageLog){
@@ -210,6 +246,24 @@ module.exports = {
         })
     },
 
+    "changeStatus":function(status=[],statusType="",mode=""){
+        bot.on("ready",()=>{
+
+            if(status.length < 2) return console.error("Es müssen mindestens 2 Status sein.")
+
+            let rstatus
+
+            setInterval(()=>{
+                rstatus = status[Math.floor(Math.random() * status.length)]
+                bot.user.setActivity(rstatus,{type:`${statusType.toUpperCase()}`});
+            },5000)
+            
+            if(mode){
+                bot.user.setStatus(mode);
+            }
+        })
+    },
+
     "random":function(command="",maxNumber=0,output=""){
         bot.on("message", async message=>{
             if(!message.guild) return;
@@ -300,12 +354,13 @@ module.exports = {
         })
     },
 
-    "welcomeEmbed":function(channelName="",thumbnail="",message="",color=""){
+    "welcomeEmbed":function(channelName="",message="",color="",thumbnail=""){
         if(!channelName ||channelName == "") return console.error("Keinen Willkommens Kanal angegeben!");
-        if(!thumbnail || thumbnail == "" || !thumbnail.startsWith("http")) return console.error("Kein Thumbnail angegeben")
+        if(!thumbnail.startsWith("http")) return console.error("thumbnail ist keine URL")
         bot.on("guildMemberAdd",async member=>{
             const channel = member.guild.channels.cache.find(ch => ch.name === `${channelName}`);
             if(!channel) return console.error("Kann den Kanal **"+channelName+"** nicht finden!")
+            if(!thumbnail || thumbnail == "") thumbnail = member.avatarURL();
             if(message){
                 let embed = new Discord.MessageEmbed()
                 .setTitle("__**Willkommens Nachricht**__")
@@ -382,17 +437,233 @@ module.exports = {
         })
     },
 
-    "userinfo":function(command="",name=true,id=true,discriminator=false,isbot=false,createtAt=false){
+    "userinfo":function(command="",name=true,id=true,discriminator=false,isbot=false,createtAt=false,color=""){
         bot.on("message", async message=>{
             if(!message.guild) return;
-            if(!command) return console.error("Kein", )
+            if(!command) return console.error("Kein Command angegeben!");
+
+            if(message.content.startsWith(command)){
+
+                var user = message.mentions.users.first() || message.author;
+
+                let timetime = `${user.createdAt}`
+
+                let day = `${user.createdAt}`
+
+                let daydate = `${user.createdAt}`
+
+                let month = `${user.createdAt}`
+
+                let year = `${user.createdAt}`
+
+                day = day.split(" ").slice(0,1)
+
+                daydate = daydate.split(" ").slice(2,3)
+
+                month = month.split(" ").slice(1,2)
+
+                year = year.split(" ").slice(3,4)
+
+                timetime = timetime.split(" ").slice(4,5)
+
+                if(day == "Mon") day = "Montag"
+                if(day == "Tue") day = "Dienstag"
+                if(day == "Wed") day = "Mittwoch"
+                if(day == "Thu") day = "Donnerstag"
+                if(day == "Fri") day = "Freitag"
+                if(day == "Sat") day = "Samstag"
+                if(day == "Sun") day = "Sonntag"
+
+                if(month == "Jan") month = "Januar"
+                if(month == "Feb") month = "Februar"
+                if(month == "Mar") month = "März"
+                if(month == "Apr") month = "April"
+                if(month == "May") month = "Mai"
+                if(month == "Jun") month = "Juni"
+                if(month == "Jul") month = "Juli"
+                if(month == "Aug") month = "August"
+                if(month == "Sep") month = "September"
+                if(month == "Oct") month = "Oktober"
+                if(month == "Nov") month = "November"
+                if(month == "Dec") month = "September"
+
+                let time = `${day}, der ${daydate}. ${month} ${year} um ${timetime}`
+
+                let userinfo = {
+                    "avatar":user.avatarURL(),
+                    "tag":user.tag,
+                    "name":user.username,
+                    "id":user.id,
+                    "discrim":user.discriminator,
+                    "createt":user.createdAt,
+                    "bot":user.bot
+                }
+
+                if(name == false || name == "" && id == false || id == "" && discriminator == false || discriminator == "" && isbot == false || isbot == "" && createtAt == false || createtAt == ""){
+                    return message.reply("Es muss mindestens ein Feld augefüllt sein!").then(msg=>{
+                        msg.delete({timeout:"5000"})
+                    })
+                }
+
+                let embed = new Discord.MessageEmbed()
+                .setTitle("**User Info von** "+user.tag)
+                .setURL("https://sites.google.com/view/simple-htmlgames-de")
+                .setThumbnail(userinfo.avatar)
+                if(name == true){
+                    embed.addField("Name:",userinfo.name)
+                }
+
+                if(id == true){
+                    embed.addField("ID",userinfo.id)
+                }
+
+                if(discriminator == true){
+                    embed.addField("Nummer:",userinfo.discrim)
+                }
+
+                if(isbot == true){
+                    embed.addField("Bot:",userinfo.bot)
+                }
+
+                if(createtAt == true){
+                    embed.addField("Erstellt am:",time)
+                }
+
+                if(!color ||color == ""){
+                    color = "RANDOM"
+                }      
+
+                embed.setColor(color)
+                embed.setFooter("Made with engine.js by TheMinecrafter05")
+
+                message.channel.send(embed)
+            }
         })
     },
 
-    "serverinfo":function(command="",name=true,id=true,members=true,location=false,owner=false){
+    "serverinfo":function(command="",name=true,id=true,members=true,location=false,owner=false,color=""){
         bot.on("message", async message=>{
             if(!message.guild) return;
+            if(message.content === command){
+                let serverinfo = {
+                    "name":message.guild.name,
+                    "id":message.guild.id,
+                    "members":message.guild.members.cache.size,
+                    "location":message.guild.region,
+                    "owner":message.guild.owner.user.tag
+                }
 
+                let embed = new Discord.MessageEmbed()
+                .setTitle("**SERVERINFO**")
+                .setThumbnail(message.guild.iconURL())
+                if(name == true){
+                    embed.addField("Name: ",serverinfo.name)
+                }
+                if(id == true){
+                    embed.addField("ID: ",serverinfo.id)
+                }
+                if(members == true){
+                    embed.addField("Mitglieder: ",serverinfo.members)
+                }
+                if(location == true){
+                    if(serverinfo.location == "europe") serverinfo.location = "Europa"
+                    if(serverinfo.location == "brazil") serverinfo.location = "Brasilien"
+                    if(serverinfo.location == "hongkong") serverinfo.location = "Hong Kong"
+                    if(serverinfo.location == "india") serverinfo.location = "Indien"
+                    if(serverinfo.location == "japan") serverinfo.location = "Japan"
+                    if(serverinfo.location == "russia") serverinfo.location = "Russland"
+                    if(serverinfo.location == "singapore") serverinfo.location = "Singapur"
+                    if(serverinfo.location == "southafrica") serverinfo.location = "Süd Afrika"
+                    if(serverinfo.location == "sydney") serverinfo.location = "Sydney"
+                    if(serverinfo.location == "us-central") serverinfo.location = "USA Mitte"
+                    if(serverinfo.location == "us-east") serverinfo.location = "USA Osten"
+                    if(serverinfo.location == "us-south") serverinfo.location = "USA Süden"
+                    if(serverinfo.location == "us-west") serverinfo.location = "USA Westen"
+                    embed.addField("Region: ",serverinfo.location)
+                }
+                if(owner == true){
+                    embed.addField("Owner: ",serverinfo.owner)
+                }
+                if(!color || color == ""){
+                    color = "RANDOM"
+                }
+                embed.setColor(color)
+
+                if(name == "" || !name && id == "" || !id && members == "" || !members && location == "" || !location && owner == "" ||!owner){
+                    console.error("Es muss mindestens ein Feld ausgefüllt sein!")
+                    return;
+                }
+
+                message.channel.send(embed)
+                
+            }
+        })
+    },
+
+    "botinfo":function(command="",state=false,color=""){
+        bot.on("message", async message=>{
+            if(message.content == command && state == true){
+
+                let timetime = `${bot.user.createdAt}`
+
+                let day = `${bot.user.createdAt}`
+
+                let daydate = `${bot.user.createdAt}`
+
+                let month = `${bot.user.createdAt}`
+
+                let year = `${bot.user.createdAt}`
+
+                day = day.split(" ").slice(0,1)
+
+                daydate = daydate.split(" ").slice(2,3)
+
+                month = month.split(" ").slice(1,2)
+
+                year = year.split(" ").slice(3,4)
+
+                timetime = timetime.split(" ").slice(4,5)
+
+                if(day == "Mon") day = "Montag"
+                if(day == "Tue") day = "Dienstag"
+                if(day == "Wed") day = "Mittwoch"
+                if(day == "Thu") day = "Donnerstag"
+                if(day == "Fri") day = "Freitag"
+                if(day == "Sat") day = "Samstag"
+                if(day == "Sun") day = "Sonntag"
+
+                if(month == "Jan") month = "Januar"
+                if(month == "Feb") month = "Februar"
+                if(month == "Mar") month = "März"
+                if(month == "Apr") month = "April"
+                if(month == "May") month = "Mai"
+                if(month == "Jun") month = "Juni"
+                if(month == "Jul") month = "Juli"
+                if(month == "Aug") month = "August"
+                if(month == "Sep") month = "September"
+                if(month == "Oct") month = "Oktober"
+                if(month == "Nov") month = "November"
+                if(month == "Dec") month = "September"
+
+                let time = `${day}, der ${daydate}. ${month} ${year} um ${timetime}`
+
+                let embed = new Discord.MessageEmbed()
+                .setTitle("**BOT Info**")
+                .setThumbnail(bot.user.avatarURL())
+                .addField("Name:",bot.user.username)
+                .addField("ID: ",bot.user.id)
+                .addField("Erstellt am: ",time)
+                .addField("Owner: ",owner)
+                .addField("Bot erstellt mit:","engine.js by TheMinecrafter05 [[CLICK]](https://sites.google.com/view/simple-htmlgames-de/engine-js) to download")
+                .setFooter("Made with engine.js by TheMinecrafter05")
+                if(color){
+                    embed.setColor(color)
+                }else{
+                    embed.setColor("RANDOM")
+                }
+
+                message.channel.send(embed)
+            }
         })
     },
 
@@ -464,6 +735,7 @@ module.exports = {
         if(!command) return console.error("Keinen Command angegeben.")
 
         bot.on("message",async message=>{
+            if(!message.guild) return;
             if(message.content === command){
                 message.channel.send("Pong! :ping_pong: Dauerte "+bot.ws.ping+"ms!")
             }
@@ -476,6 +748,7 @@ module.exports = {
         if(!reportChannel) return console.error("Kein Report Kanal angegeben!")
 
         bot.on("message",async message=>{
+            if(!message.guild) return;
             if(message.content.startsWith(command)){
                 let channel = message.guild.channels.cache.find(ch=>ch.name === reportChannel);
 
@@ -487,18 +760,30 @@ module.exports = {
 
                 if(!text) return message.reply("Du hast keinen grund angegeben! oder an die falsche Stelle gesetzt!").then(msg=>msg.delete({timeout:"5000"}))
 
-                channel.send("``"+message.author.tag+"``"+" möchte ``"+user.tag+"`` reporten wegen:\n\n``"+text+"``")
+                let embed = new Discord.MessageEmbed()
+                .setTitle("**REPORT**")
+                .setThumbnail(user.avatarURL())
+                .setDescription("``"+message.author.tag+"``"+" möchte ``"+user.tag+"`` reporten.\n\nGrund: ``"+text+"``")
+                .setColor("RED")
+                .setFooter("Made with engine.js by TheMinecrafter05")
+                channel.send(embed)
             }
         })
 
     }
+
+    
 }
 
 
-//bug report
+//-------------NEXT VERSION-------------
 
-//bot info
+//xp system
 
-//userinfo
+//money system
 
-//serverinfo
+//private channel system
+
+//permissionCommand
+
+//permissionEmbed
